@@ -13,17 +13,6 @@ const userController = {
         }
     },
 
-    edades: async (req, res) => {
-        try {
-            const users = await User.find();
-            res.json(users);
-
-        } catch (error) {
-            console.error('Error al obtener usuarios:', error);
-            res.status(500).json({ message: 'Internal Server Error' });
-        }
-    },
-
     // Obtener un usuario por su id dinamicamente
     getUserById: async (req, res) => {
 
@@ -66,6 +55,32 @@ const userController = {
 
         } catch (error) {
             console.error('Error al crear usuario:', error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+    },
+
+    // Actualizar un usuario
+
+    updateUser: async (req, res) => {
+        try {
+            const {name} = req.params;
+            const userUpdate = await User.findOneAndUpdate({name: name}, {$set: {name: 'Arnulfo'}})
+            res.json(userUpdate);
+
+        } catch (error) {
+            console.error('Error al actualizar usuario:', error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+    },
+
+    deleteUserByName: async (req, res) => {
+        try { 
+            const {name} = req.params;
+            const userDelete = await User.findOneAndDelete({name:name})
+            res.json(userDelete);
+
+        } catch (error) {
+            console.error('Error al actualizar usuario:', error);
             res.status(500).json({ message: 'Internal Server Error' });
         }
     }
